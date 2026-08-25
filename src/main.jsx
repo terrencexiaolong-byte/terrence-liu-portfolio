@@ -3,6 +3,11 @@ import { createRoot } from 'react-dom/client'
 import { useEffect, useRef, useState } from 'react'
 import './styles.css'
 
+const sitePath = (path = '') => {
+  const normalizedPath = String(path)
+  return `${import.meta.env.BASE_URL}${normalizedPath.startsWith('/') ? normalizedPath.slice(1) : normalizedPath}`
+}
+
 const projects = [
   {
     no: '01', title: '股票价格预测', en: 'MARKET SIGNAL',
@@ -148,7 +153,7 @@ function PortraitFilm() {
       src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4"
     />
     <div className="portrait-video-shade" />
-    <div className="portrait-photo"><img src="/images/portrait-mountain.jpg" alt="刘小龙于黑独山" /></div>
+    <div className="portrait-photo"><img src={sitePath('images/portrait-mountain.jpg')} alt="刘小龙于黑独山" /></div>
     <div className="portrait-overlay" />
     <span className="portrait-cue">MOVE TO EXPLORE ↔</span>
     <p>BLACK DUSHAN<br />2026</p>
@@ -199,7 +204,7 @@ function EdgeConsole() {
       <p className="edge-console-blur">您好，这里是 L.X.L /<br />量化分析与金融科技。</p>
       <p className="edge-console-type">{displayed}{!done && <i aria-hidden="true" />}</p>
       <div className="edge-console-actions">
-        <a href="#work">查看项目</a><a href="#experience">学习经历</a><a href="/interests.html">进入影像档案</a>
+        <a href="#work">查看项目</a><a href="#experience">学习经历</a><a href={sitePath('interests.html')}>进入影像档案</a>
         <button type="button" className="edge-console-mail" onClick={copyEmail}>{copied ? '已复制邮箱' : '联系我：teryfinance@gmail.com'} <span>▣</span></button>
       </div>
     </div>
@@ -270,24 +275,24 @@ function FitnessHero() {
     <div className="fitness-gridlines" aria-hidden="true"><i /><i /><i /></div>
     <svg className="fitness-glow" viewBox="0 0 900 250" aria-hidden="true"><defs><filter id="fitnessBlur"><feGaussianBlur stdDeviation="25" /></filter></defs><ellipse cx="450" cy="125" rx="300" ry="62" fill="#0c8f74" fillOpacity=".5" filter="url(#fitnessBlur)" /></svg>
     <div className="fitness-topbar">
-      <a href="/index.html" className="fitness-brand">TRAINING</a>
-      <nav><a href="#training">训练</a><a href="#photography">影像</a><a href="/index.html#about">关于</a><a href="/index.html#contact">联系</a></nav>
-      <a className="fitness-top-cta" href="/index.html#contact">联系我</a>
+      <a href={sitePath('index.html')} className="fitness-brand">TRAINING</a>
+      <nav><a href="#training">训练</a><a href="#photography">影像</a><a href={`${sitePath('index.html')}#about`}>关于</a><a href={`${sitePath('index.html')}#contact`}>联系</a></nav>
+      <a className="fitness-top-cta" href={`${sitePath('index.html')}#contact`}>联系我</a>
       <button className="fitness-menu-toggle" type="button" aria-label="打开训练导航" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={21} /> : <Menu size={22} />}</button>
     </div>
     <div className={`fitness-mobile-menu ${menuOpen ? 'is-open' : ''}`}>
-      <a onClick={() => setMenuOpen(false)} href="#training">训练</a><a onClick={() => setMenuOpen(false)} href="#photography">影像</a><a onClick={() => setMenuOpen(false)} href="/index.html#about">关于</a><a onClick={() => setMenuOpen(false)} href="/index.html#contact">联系我</a>
+      <a onClick={() => setMenuOpen(false)} href="#training">训练</a><a onClick={() => setMenuOpen(false)} href="#photography">影像</a><a onClick={() => setMenuOpen(false)} href={`${sitePath('index.html')}#about`}>关于</a><a onClick={() => setMenuOpen(false)} href={`${sitePath('index.html')}#contact`}>联系我</a>
     </div>
     <div className="fitness-hero-copy">
       <div className="liquid-card"><span>[ 2025 ]</span><h3>训练是长期主义的<br/><em>专业课。</em></h3><p>节律、恢复与可重复的执行。</p></div>
       <p className="eyebrow">CAREER-READY DISCIPLINE</p>
       <h2>训练是<br/><em>另一种复利。</em></h2>
       <p className="fitness-description">保持身体的节律，也保持对长期主义的耐心。把每一次训练，视为对长期目标的可复利投入。</p>
-      <a className="fitness-cta" href="/index.html#contact">开始交流 <ArrowRight size={16} /></a>
+      <a className="fitness-cta" href={`${sitePath('index.html')}#contact`}>开始交流 <ArrowRight size={16} /></a>
     </div>
     <div className="fitness-images">
-      <figure className="fitness-main"><img src="/photos/fitness-gym.jpg" alt="刘小龙健身镜面自拍" /><figcaption>GYM SESSION / 2025</figcaption></figure>
-      <figure className="fitness-mirror"><img src="/photos/fitness-mirror.jpg" alt="训练日常记录" /><figcaption>OFF THE CLOCK / 2025</figcaption></figure>
+      <figure className="fitness-main"><img src={sitePath('photos/fitness-gym.jpg')} alt="刘小龙健身镜面自拍" /><figcaption>GYM SESSION / 2025</figcaption></figure>
+      <figure className="fitness-mirror"><img src={sitePath('photos/fitness-mirror.jpg')} alt="训练日常记录" /><figcaption>OFF THE CLOCK / 2025</figcaption></figure>
     </div>
   </section>
 }
@@ -305,12 +310,12 @@ function InterestsPage() {
   }, [activePhoto])
 
   return <main className="interests-page">
-    <nav className="interests-nav"><a href="/index.html">← 返回主页</a><p>捡树枝的鸦 / VISUAL NOTES</p><span>2026</span></nav>
-    <header className="interests-hero"><div className="interests-title"><p className="eyebrow">PERSONAL ARCHIVE / 01</p><h1>影像<br/><em>与兴趣</em></h1><p>行走、观察、训练。<br/>这些是工作之外，持续塑造我的另一套坐标系。</p></div><figure className="self-portrait"><span className="portrait-kicker">FIELD NOTES / 2026</span><img src="/photos/self-portrait-mirror.jpg" alt="刘小龙镜面自拍"/><figcaption>OBSERVE<br/>THEN<br/>FRAME<span>35MM / 1·160</span></figcaption></figure></header>
-    <section className="gallery-wrap" id="photography"><div className="gallery-intro"><p className="eyebrow">PHOTOGRAPHY</p><p>旅行与日常的光线记录</p></div><div className="photo-grid">{photographs.map(([file, metadata], i) => <figure className={`photo-tile tile-${i % 7}`} key={file} role="button" tabIndex="0" aria-label={`放大预览摄影作品 ${i + 1}`} onClick={() => setActivePhoto({ file, metadata, index: i + 1 })} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setActivePhoto({ file, metadata, index: i + 1 }) } }}><img src={`/photos/${file}`} alt={`摄影作品 ${i + 1}`} loading="lazy"/><figcaption><span>{String(i + 1).padStart(2, '0')}</span>{metadata}</figcaption></figure>)}</div></section>
+    <nav className="interests-nav"><a href={sitePath('index.html')}>← 返回主页</a><p>捡树枝的鸦 / VISUAL NOTES</p><span>2026</span></nav>
+    <header className="interests-hero"><div className="interests-title"><p className="eyebrow">PERSONAL ARCHIVE / 01</p><h1>影像<br/><em>与兴趣</em></h1><p>行走、观察、训练。<br/>这些是工作之外，持续塑造我的另一套坐标系。</p></div><figure className="self-portrait"><span className="portrait-kicker">FIELD NOTES / 2026</span><img src={sitePath('photos/self-portrait-mirror.jpg')} alt="刘小龙镜面自拍"/><figcaption>OBSERVE<br/>THEN<br/>FRAME<span>35MM / 1·160</span></figcaption></figure></header>
+    <section className="gallery-wrap" id="photography"><div className="gallery-intro"><p className="eyebrow">PHOTOGRAPHY</p><p>旅行与日常的光线记录</p></div><div className="photo-grid">{photographs.map(([file, metadata], i) => <figure className={`photo-tile tile-${i % 7}`} key={file} role="button" tabIndex="0" aria-label={`放大预览摄影作品 ${i + 1}`} onClick={() => setActivePhoto({ file, metadata, index: i + 1 })} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setActivePhoto({ file, metadata, index: i + 1 }) } }}><img src={sitePath(`photos/${file}`)} alt={`摄影作品 ${i + 1}`} loading="lazy"/><figcaption><span>{String(i + 1).padStart(2, '0')}</span>{metadata}</figcaption></figure>)}</div></section>
     <FitnessHero />
-    <footer className="interests-footer"><a href="/index.html">← BACK TO QUANTITATIVE PORTFOLIO</a><p>© 2026 LIU XIAOLONG</p></footer>
-    {activePhoto && <div className="photo-modal" role="dialog" aria-modal="true" aria-label={`摄影作品 ${activePhoto.index} 原图预览`} onClick={() => setActivePhoto(null)}><button className="photo-modal-close" type="button" onClick={() => setActivePhoto(null)} aria-label="关闭照片预览">×</button><div className="photo-modal-stage" onClick={(event) => event.stopPropagation()}><img src={`/photos/${activePhoto.file}`} alt={`摄影作品 ${activePhoto.index} 原图`} /><p><span>{String(activePhoto.index).padStart(2, '0')}</span>{activePhoto.metadata}</p></div></div>}
+    <footer className="interests-footer"><a href={sitePath('index.html')}>← BACK TO QUANTITATIVE PORTFOLIO</a><p>© 2026 LIU XIAOLONG</p></footer>
+    {activePhoto && <div className="photo-modal" role="dialog" aria-modal="true" aria-label={`摄影作品 ${activePhoto.index} 原图预览`} onClick={() => setActivePhoto(null)}><button className="photo-modal-close" type="button" onClick={() => setActivePhoto(null)} aria-label="关闭照片预览">×</button><div className="photo-modal-stage" onClick={(event) => event.stopPropagation()}><img src={sitePath(`photos/${activePhoto.file}`)} alt={`摄影作品 ${activePhoto.index} 原图`} /><p><span>{String(activePhoto.index).padStart(2, '0')}</span>{activePhoto.metadata}</p></div></div>}
   </main>
 }
 
@@ -326,7 +331,7 @@ function App() {
         <a href="#experience"><span>02</span> 经历</a>
         <a href="#work"><span>03</span> 项目</a>
         <a href="#edge"><span>04</span> 优势</a>
-        <a href="/interests.html"><span>05</span> 兴趣</a>
+        <a href={sitePath('interests.html')}><span>05</span> 兴趣</a>
       </div>
     </nav>
     <section className="hero" id="top">
@@ -358,11 +363,11 @@ function App() {
       <article><p className="year">2020 — 2024</p><div><h3>Western University</h3><p>金融与行政管理本科</p></div><p className="detail">Honours Specialization degree · London, Canada（主修课程：商业分析、风险管理、公司治理、国际金融、市场营销、计量经济学、行为经济学）</p></article>
     </div></section>
 
-    <section className="work section motion-reveal" id="work"><div className="frame"><div className="section-top" data-motion="SELECTED WORK"><p className="eyebrow">03 — SELECTED WORK</p><p className="section-note">研究 / 系统 / 模型</p></div><div className="work-intro"><h2>让数据<br/><span>成为视野。</span></h2><p>精选项目聚焦于市场预测、风险系统与金融建模。每一个项目都从具体问题出发，落向更好的决策。</p></div></div><div className="project-rail">{projects.map((p) => <article className={`project-card ${p.type}`} key={p.no}><div className="card-visual"><span className="card-no">{p.no}</span>{p.type === 'signal' ? <button className="result-frame result-frame--signal" type="button" onClick={() => setActiveResult({src:'/projects/stock-model-results.jpg', alt:'股票预测模型完整输出结果', label:'STOCK FORECAST / FULL OUTPUT'})}><img src="/projects/stock-model-results.jpg" alt="股票预测模型训练与价格拟合结果"/><span className="result-label">点击查看完整结果 ↗</span></button> : p.type === 'risk' ? <div className="result-frame result-frame--risk"><img className="risk-exposure" src="/projects/factor-exposure.jpg" alt="投资组合因子敞口分析结果"/><img className="risk-trends" src="/projects/factor-trends.jpg" alt=""/><span className="result-label">FACTOR EXPOSURE / TREND</span></div> : <><div className="visual-mark">◇</div><div className="chart-lines"/></>}</div><div className="card-content"><p className="eyebrow">{p.en}</p><h3>{p.title}</h3><p>{p.text}</p><div className="tags">{p.tags.map(x => <span key={x}>{x}</span>)}</div><button aria-label={`查看${p.title}`}><ArrowUpRight size={20}/></button></div></article>)}</div></section>
+    <section className="work section motion-reveal" id="work"><div className="frame"><div className="section-top" data-motion="SELECTED WORK"><p className="eyebrow">03 — SELECTED WORK</p><p className="section-note">研究 / 系统 / 模型</p></div><div className="work-intro"><h2>让数据<br/><span>成为视野。</span></h2><p>精选项目聚焦于市场预测、风险系统与金融建模。每一个项目都从具体问题出发，落向更好的决策。</p></div></div><div className="project-rail">{projects.map((p) => <article className={`project-card ${p.type}`} key={p.no}><div className="card-visual"><span className="card-no">{p.no}</span>{p.type === 'signal' ? <button className="result-frame result-frame--signal" type="button" onClick={() => setActiveResult({src:sitePath('projects/stock-model-results.jpg'), alt:'股票预测模型完整输出结果', label:'STOCK FORECAST / FULL OUTPUT'})}><img src={sitePath('projects/stock-model-results.jpg')} alt="股票预测模型训练与价格拟合结果"/><span className="result-label">点击查看完整结果 ↗</span></button> : p.type === 'risk' ? <div className="result-frame result-frame--risk"><img className="risk-exposure" src={sitePath('projects/factor-exposure.jpg')} alt="投资组合因子敞口分析结果"/><img className="risk-trends" src={sitePath('projects/factor-trends.jpg')} alt=""/><span className="result-label">FACTOR EXPOSURE / TREND</span></div> : <><div className="visual-mark">◇</div><div className="chart-lines"/></>}</div><div className="card-content"><p className="eyebrow">{p.en}</p><h3>{p.title}</h3><p>{p.text}</p><div className="tags">{p.tags.map(x => <span key={x}>{x}</span>)}</div><button aria-label={`查看${p.title}`}><ArrowUpRight size={20}/></button></div></article>)}</div></section>
 
     <section className="edge section frame motion-reveal" id="edge"><div className="section-top" data-motion="EDGE"><p className="eyebrow">04 — EDGE</p><p className="section-note">不只是技术能力</p></div><div className="edge-header"><h2>保持冷静，<br/><span>持续推演。</span></h2><p>在快速变化的市场里，好的分析既需要技术深度，也需要对业务情境的感知。</p></div><EdgeConsole /><div className="strength-grid">{strengths.map(([no, title, text]) => <article key={no}><span>{no}</span><ArrowDownRight size={20}/><h3>{title}</h3><p>{text}</p></article>)}</div></section>
 
-    <section className="visual-entry frame motion-reveal"><a href="/interests.html"><div className="visual-entry-photo"/><div className="visual-entry-copy"><p className="eyebrow">PERSONAL ARCHIVE / 06</p><h2>摄影<br/>与<span>兴趣。</span></h2><p>影像记录、旅行与训练。</p><span className="visual-entry-arrow">↗</span></div></a></section>
+    <section className="visual-entry frame motion-reveal"><a href={sitePath('interests.html')}><div className="visual-entry-photo"/><div className="visual-entry-copy"><p className="eyebrow">PERSONAL ARCHIVE / 06</p><h2>摄影<br/>与<span>兴趣。</span></h2><p>影像记录、旅行与训练。</p><span className="visual-entry-arrow">↗</span></div></a></section>
 
     <footer id="contact" className="contact-film motion-reveal"><video className="contact-film-video" autoPlay muted loop playsInline preload="metadata" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_204221_5339e40b-e73d-4ab0-9c65-79c18c66fd50.mp4"/><div className="contact-film-shade"/><div className="frame footer-inner"><div className="contact-film-nav"><span>Terrence Liu</span><span>QUANTITATIVE FINANCE</span><span>GUANGZHOU · 2026</span></div><div className="contact-film-copy"><p className="eyebrow">05 — LET'S CONNECT</p><h2>下一个问题，<br/><em>一起解。</em></h2></div><div className="contact-film-bottom"><p>金融数据、量化研究与风险分析。<br/>期待下一段需要被拆解的复杂问题。</p><a href="mailto:teryfinance@gmail.com" className="mail-link">teryfinance@gmail.com <ArrowUpRight/></a></div><div className="footer-bottom"><p>© 2026 Terrence Liu</p><p>QUANTITATIVE FINANCE<br/>GUANGZHOU</p><a href="#top">BACK TO TOP ↑</a></div></div></footer>
     {activeResult && <div className="result-modal" role="dialog" aria-modal="true" aria-label={activeResult.label} onClick={() => setActiveResult(null)}><div className="result-modal-panel" onClick={(event) => event.stopPropagation()}><button className="result-modal-close" type="button" onClick={() => setActiveResult(null)} aria-label="关闭完整项目结果">×</button><p>{activeResult.label}</p><img src={activeResult.src} alt={activeResult.alt}/></div></div>}
