@@ -221,6 +221,9 @@ footer.interests-footer{height:auto;min-height:0;position:static;overflow:visibl
 .result-frame--risk{background:#1c1c1c}
 .result-frame--risk .risk-exposure{object-position:center;filter:grayscale(1) contrast(1.18) brightness(.82)}
 .result-frame--risk .risk-trends{position:absolute;z-index:2;right:17px;bottom:17px;width:47%;height:47%;object-fit:cover;object-position:center;filter:grayscale(1) contrast(1.16) brightness(.98);border:1px solid rgba(244,242,237,.68);box-shadow:0 12px 22px rgba(0,0,0,.3)}
+.risk-anonymized-label,.risk-trends-label{position:absolute;z-index:4;font:600 8px/1 "DM Mono";letter-spacing:.8px;pointer-events:none}
+.risk-anonymized-label{top:0;left:0;right:0;height:31px;padding:11px 16px;background:#e7e6e0;color:#1a1a1a}
+.risk-trends-label{right:18px;bottom:calc(47% + 17px - 20px);width:47%;height:20px;padding:7px 8px;background:rgba(18,18,18,.92);color:#f2f1ec;border:1px solid rgba(244,242,237,.68);border-bottom:0;font-size:6px}
 .result-frame--risk:before{content:"";position:absolute;z-index:2;left:22px;bottom:21px;width:54px;height:3px;background:#e54035}
 .result-frame--risk .result-label{color:#f4f2ed;background:rgba(16,16,16,.76)}
 .risk .card-no{color:#f4f2ed}
@@ -299,3 +302,76 @@ button.result-frame{appearance:none;border:0;padding:0;text-align:initial;cursor
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);
 }
 .nav-links{position:relative;z-index:1;}
+
+/* Readability pass — preserve the display hierarchy while making supporting copy comfortable to read. */
+.eyebrow{font-size:11px;line-height:1.45}
+.hero-bottom{font-size:14px;line-height:1.8}
+.section-note{font-size:13px;line-height:1.55}
+.about-copy>p{font-size:clamp(16px,1.08vw,18px);line-height:1.9}
+.contact-lines{font-size:14px;line-height:1.55}
+.metrics span{font-size:12px;line-height:1.72}
+.metrics span b{font-size:10px;line-height:1.45}
+.timeline div p,.timeline .detail{font-size:14px;line-height:1.82}
+.work-intro p,.edge-header>p{font-size:15px;line-height:1.85}
+.card-content>p:not(.eyebrow){font-size:14px;line-height:1.82}
+.tags span{font-size:10px;padding:6px 9px}
+.strength-grid p{font-size:14px;line-height:1.82}
+.edge-console-actions{font-size:11px;line-height:1.5}
+.fitness-description{font-size:15px;line-height:1.8}
+.liquid-card p{font-size:12px;line-height:1.6}
+.contact-film-bottom>p{font-size:15px;line-height:1.8}
+.footer-bottom{font-size:11px;line-height:1.75}
+
+@media(max-width:700px){
+  .eyebrow{font-size:10px}
+  .hero-bottom{font-size:13px}
+  .section-note{font-size:12px}
+  .about-copy>p{font-size:15px;line-height:1.86}
+  .contact-lines{font-size:12px}
+  .metrics span{font-size:11px}
+  .timeline div p,.timeline .detail{font-size:13px;line-height:1.78}
+  .work-intro p,.edge-header>p{font-size:14px;line-height:1.8}
+  .card-content>p:not(.eyebrow),.strength-grid p{font-size:13px;line-height:1.78}
+  .fitness-description,.contact-film-bottom>p{font-size:14px}
+  .footer-bottom{font-size:10px}
+}
+
+/* Project methodology details */
+.project-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin:16px 0 0;padding:0;max-width:470px}
+.project-specs div{min-width:0;border-top:1px solid rgba(20,20,20,.16);padding-top:6px}
+.project-specs dt{font:600 8px/1.35 "DM Mono";letter-spacing:.8px;color:#e54035;text-transform:uppercase}
+.project-specs dd{margin:3px 0 0;font-size:10px;line-height:1.45;color:#4b4b49}
+
+/* Desktop reading scale — keep display headlines intact, enlarge every supporting layer. */
+@media(min-width:701px){
+  .nav-links{font-size:15px}
+  .eyebrow{font-size:12px;line-height:1.55}
+  .hero-bottom{font-size:16px;line-height:1.85}
+  .section-note{font-size:15px;line-height:1.6}
+  .about-copy>p{font-size:clamp(18px,1.25vw,21px);line-height:1.9}
+  .contact-lines{font-size:16px;line-height:1.62}
+  .metrics span{font-size:14px;line-height:1.7}
+  .metrics span b{font-size:11px;line-height:1.5}
+  .timeline div p,.timeline .detail{font-size:16px;line-height:1.85}
+  .year{font-size:12px}
+  .work-intro p,.edge-header>p{font-size:17px;line-height:1.86}
+  .card-content>p:not(.eyebrow){font-size:16px;line-height:1.8}
+  .tags span{font-size:11px;padding:7px 10px}
+  .strength-grid p{font-size:16px;line-height:1.78}
+  .edge-console-actions{font-size:12px;line-height:1.55}
+  .fitness-description{font-size:16px;line-height:1.82}
+  .liquid-card p{font-size:13px;line-height:1.62}
+  .contact-film-bottom>p{font-size:16px;line-height:1.8}
+  .footer-bottom,.contact-film-nav{font-size:12px;line-height:1.7}
+  .gallery-intro>p:last-child{font-size:16px;line-height:1.8}
+  .photo-tile figcaption{font-size:12px}
+  .interests-title>p:last-child{font-size:18px;line-height:1.75}
+  .portrait-kicker{font-size:11px}
+}
+
+@media(max-width:700px){
+  .project-specs{grid-template-columns:1fr;gap:6px;margin-top:13px}
+  .project-specs dd{font-size:9px}
+  .risk-anonymized-label{height:25px;padding:8px 11px;font-size:6px}
+  .risk-trends-label{right:13px;bottom:calc(45% + 12px - 17px);width:49%;height:17px;padding:6px;font-size:5px}
+}

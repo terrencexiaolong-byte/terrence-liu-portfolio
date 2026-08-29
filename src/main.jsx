@@ -11,8 +11,14 @@ const sitePath = (path = '') => {
 const projects = [
   {
     no: '01', title: '股票价格预测', en: 'MARKET SIGNAL',
-    text: '以 CNN × LSTM 混合模型处理美股高频序列，在噪声与趋势之间寻找可解释的信号。',
-    tags: ['Python', 'Deep Learning', 'Time Series'], type: 'signal'
+    text: '以 RNN × LSTM 处理美股日频序列，在噪声与趋势之间寻找可解释的信号。',
+    specs: [
+      ['数据', 'Yahoo Finance 美股历史数据 · 日频 · 2014—2024'],
+      ['切分', '按时间顺序划分训练 / 验证 / 测试集：70% / 15% / 15%'],
+      ['控制', '滚动特征与标准化仅使用历史窗口，避免未来信息泄漏'],
+      ['评估', '以持久化预测、单层 RNN 为基准；比较 MAE、RMSE 与方向准确率']
+    ],
+    tags: ['Python', 'RNN / LSTM', 'Daily Data'], type: 'signal'
   },
   {
     no: '02', title: '风险敞口分析工具', en: 'RISK SYSTEM',
@@ -153,7 +159,7 @@ function PortraitFilm() {
       src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4"
     />
     <div className="portrait-video-shade" />
-    <div className="portrait-photo"><img src={sitePath('images/portrait-mountain.jpg')} alt="刘小龙于黑独山" /></div>
+    <div className="portrait-photo"><img src={sitePath('images/portrait-mountain.jpg')} alt="刘小龙于黑独山" loading="eager" fetchPriority="high" decoding="async" /></div>
     <div className="portrait-overlay" />
     <span className="portrait-cue">MOVE TO EXPLORE ↔</span>
     <p>BLACK DUSHAN<br />2026</p>
@@ -291,8 +297,8 @@ function FitnessHero() {
       <a className="fitness-cta" href={`${sitePath('index.html')}#contact`}>开始交流 <ArrowRight size={16} /></a>
     </div>
     <div className="fitness-images">
-      <figure className="fitness-main"><img src={sitePath('photos/fitness-gym.jpg')} alt="刘小龙健身镜面自拍" /><figcaption>GYM SESSION / 2025</figcaption></figure>
-      <figure className="fitness-mirror"><img src={sitePath('photos/fitness-mirror.jpg')} alt="训练日常记录" /><figcaption>OFF THE CLOCK / 2025</figcaption></figure>
+      <figure className="fitness-main"><img src={sitePath('photos/fitness-gym.jpg')} alt="刘小龙健身镜面自拍" loading="lazy" fetchPriority="low" decoding="async" /><figcaption>GYM SESSION / 2025</figcaption></figure>
+      <figure className="fitness-mirror"><img src={sitePath('photos/fitness-mirror.jpg')} alt="训练日常记录" loading="lazy" fetchPriority="low" decoding="async" /><figcaption>OFF THE CLOCK / 2025</figcaption></figure>
     </div>
   </section>
 }
@@ -311,11 +317,11 @@ function InterestsPage() {
 
   return <main className="interests-page">
     <nav className="interests-nav"><a href={sitePath('index.html')}>← 返回主页</a><p>捡树枝的鸦 / VISUAL NOTES</p><span>2026</span></nav>
-    <header className="interests-hero"><div className="interests-title"><p className="eyebrow">PERSONAL ARCHIVE / 01</p><h1>影像<br/><em>与兴趣</em></h1><p>行走、观察、训练。<br/>这些是工作之外，持续塑造我的另一套坐标系。</p></div><figure className="self-portrait"><span className="portrait-kicker">FIELD NOTES / 2026</span><img src={sitePath('photos/self-portrait-mirror.jpg')} alt="刘小龙镜面自拍"/><figcaption>OBSERVE<br/>THEN<br/>FRAME<span>35MM / 1·160</span></figcaption></figure></header>
-    <section className="gallery-wrap" id="photography"><div className="gallery-intro"><p className="eyebrow">PHOTOGRAPHY</p><p>旅行与日常的光线记录</p></div><div className="photo-grid">{photographs.map(([file, metadata], i) => <figure className={`photo-tile tile-${i % 7}`} key={file} role="button" tabIndex="0" aria-label={`放大预览摄影作品 ${i + 1}`} onClick={() => setActivePhoto({ file, metadata, index: i + 1 })} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setActivePhoto({ file, metadata, index: i + 1 }) } }}><img src={sitePath(`photos/${file}`)} alt={`摄影作品 ${i + 1}`} loading="lazy"/><figcaption><span>{String(i + 1).padStart(2, '0')}</span>{metadata}</figcaption></figure>)}</div></section>
+    <header className="interests-hero"><div className="interests-title"><p className="eyebrow">PERSONAL ARCHIVE / 01</p><h1>影像<br/><em>与兴趣</em></h1><p>行走、观察、训练。<br/>这些是工作之外，持续塑造我的另一套坐标系。</p></div><figure className="self-portrait"><span className="portrait-kicker">FIELD NOTES / 2026</span><img src={sitePath('photos/self-portrait-mirror.jpg')} alt="刘小龙镜面自拍" loading="eager" fetchPriority="high" decoding="async"/><figcaption>OBSERVE<br/>THEN<br/>FRAME<span>35MM / 1·160</span></figcaption></figure></header>
+    <section className="gallery-wrap" id="photography"><div className="gallery-intro"><p className="eyebrow">PHOTOGRAPHY</p><p>旅行与日常的光线记录</p></div><div className="photo-grid">{photographs.map(([file, metadata], i) => <figure className={`photo-tile tile-${i % 7}`} key={file} role="button" tabIndex="0" aria-label={`放大预览摄影作品 ${i + 1}`} onClick={() => setActivePhoto({ file, metadata, index: i + 1 })} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setActivePhoto({ file, metadata, index: i + 1 }) } }}><img src={sitePath(`photos/${file}`)} alt={`摄影作品 ${i + 1}`} loading="lazy" fetchPriority="low" decoding="async"/><figcaption><span>{String(i + 1).padStart(2, '0')}</span>{metadata}</figcaption></figure>)}</div></section>
     <FitnessHero />
     <footer className="interests-footer"><a href={sitePath('index.html')}>← BACK TO QUANTITATIVE PORTFOLIO</a><p>© 2026 LIU XIAOLONG</p></footer>
-    {activePhoto && <div className="photo-modal" role="dialog" aria-modal="true" aria-label={`摄影作品 ${activePhoto.index} 原图预览`} onClick={() => setActivePhoto(null)}><button className="photo-modal-close" type="button" onClick={() => setActivePhoto(null)} aria-label="关闭照片预览">×</button><div className="photo-modal-stage" onClick={(event) => event.stopPropagation()}><img src={sitePath(`photos/${activePhoto.file}`)} alt={`摄影作品 ${activePhoto.index} 原图`} /><p><span>{String(activePhoto.index).padStart(2, '0')}</span>{activePhoto.metadata}</p></div></div>}
+    {activePhoto && <div className="photo-modal" role="dialog" aria-modal="true" aria-label={`摄影作品 ${activePhoto.index} 原图预览`} onClick={() => setActivePhoto(null)}><button className="photo-modal-close" type="button" onClick={() => setActivePhoto(null)} aria-label="关闭照片预览">×</button><div className="photo-modal-stage" onClick={(event) => event.stopPropagation()}><img src={sitePath(`photos/${activePhoto.file}`)} alt={`摄影作品 ${activePhoto.index} 原图`} decoding="async" /><p><span>{String(activePhoto.index).padStart(2, '0')}</span>{activePhoto.metadata}</p></div></div>}
   </main>
 }
 
@@ -363,7 +369,7 @@ function App() {
       <article><p className="year">2020 — 2024</p><div><h3>Western University</h3><p>金融与行政管理本科</p></div><p className="detail">Honours Specialization degree · London, Canada（主修课程：商业分析、风险管理、公司治理、国际金融、市场营销、计量经济学、行为经济学）</p></article>
     </div></section>
 
-    <section className="work section motion-reveal" id="work"><div className="frame"><div className="section-top" data-motion="SELECTED WORK"><p className="eyebrow">03 — SELECTED WORK</p><p className="section-note">研究 / 系统 / 模型</p></div><div className="work-intro"><h2>让数据<br/><span>成为视野。</span></h2><p>精选项目聚焦于市场预测、风险系统与金融建模。每一个项目都从具体问题出发，落向更好的决策。</p></div></div><div className="project-rail">{projects.map((p) => <article className={`project-card ${p.type}`} key={p.no}><div className="card-visual"><span className="card-no">{p.no}</span>{p.type === 'signal' ? <button className="result-frame result-frame--signal" type="button" onClick={() => setActiveResult({src:sitePath('projects/stock-model-results.jpg'), alt:'股票预测模型完整输出结果', label:'STOCK FORECAST / FULL OUTPUT'})}><img src={sitePath('projects/stock-model-results.jpg')} alt="股票预测模型训练与价格拟合结果"/><span className="result-label">点击查看完整结果 ↗</span></button> : p.type === 'risk' ? <div className="result-frame result-frame--risk"><img className="risk-exposure" src={sitePath('projects/factor-exposure.jpg')} alt="投资组合因子敞口分析结果"/><img className="risk-trends" src={sitePath('projects/factor-trends.jpg')} alt=""/><span className="result-label">FACTOR EXPOSURE / TREND</span></div> : <><div className="visual-mark">◇</div><div className="chart-lines"/></>}</div><div className="card-content"><p className="eyebrow">{p.en}</p><h3>{p.title}</h3><p>{p.text}</p><div className="tags">{p.tags.map(x => <span key={x}>{x}</span>)}</div><button aria-label={`查看${p.title}`}><ArrowUpRight size={20}/></button></div></article>)}</div></section>
+    <section className="work section motion-reveal" id="work"><div className="frame"><div className="section-top" data-motion="SELECTED WORK"><p className="eyebrow">03 — SELECTED WORK</p><p className="section-note">研究 / 系统 / 模型</p></div><div className="work-intro"><h2>让数据<br/><span>成为视野。</span></h2><p>精选项目聚焦于市场预测、风险系统与金融建模。每一个项目都从具体问题出发，落向更好的决策。</p></div></div><div className="project-rail">{projects.map((p) => <article className={`project-card ${p.type}`} key={p.no}><div className="card-visual"><span className="card-no">{p.no}</span>{p.type === 'signal' ? <button className="result-frame result-frame--signal" type="button" onClick={() => setActiveResult({src:sitePath('projects/stock-model-results.jpg'), alt:'股票预测模型完整输出结果', label:'STOCK FORECAST / FULL OUTPUT'})}><img src={sitePath('projects/stock-model-results.jpg')} alt="股票预测模型训练与价格拟合结果" loading="lazy" fetchPriority="low" decoding="async"/><span className="result-label">点击查看完整结果 ↗</span></button> : p.type === 'risk' ? <div className="result-frame result-frame--risk"><img className="risk-exposure" src={sitePath('projects/factor-exposure.jpg')} alt="匿名化投资组合因子敞口分析结果" loading="lazy" fetchPriority="low" decoding="async"/><img className="risk-trends" src={sitePath('projects/factor-trends.jpg')} alt="" loading="lazy" fetchPriority="low" decoding="async"/><span className="risk-anonymized-label">ANONYMIZED PORTFOLIO</span><span className="risk-trends-label">ANONYMOUS FACTOR TREND</span><span className="result-label">FACTOR EXPOSURE / TREND</span></div> : <><div className="visual-mark">◇</div><div className="chart-lines"/></>}</div><div className="card-content"><p className="eyebrow">{p.en}</p><h3>{p.title}</h3><p>{p.text}</p>{p.specs && <dl className="project-specs">{p.specs.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>}<div className="tags">{p.tags.map(x => <span key={x}>{x}</span>)}</div><button aria-label={`查看${p.title}`}><ArrowUpRight size={20}/></button></div></article>)}</div></section>
 
     <section className="edge section frame motion-reveal" id="edge"><div className="section-top" data-motion="EDGE"><p className="eyebrow">04 — EDGE</p><p className="section-note">不只是技术能力</p></div><div className="edge-header"><h2>保持冷静，<br/><span>持续推演。</span></h2><p>在快速变化的市场里，好的分析既需要技术深度，也需要对业务情境的感知。</p></div><EdgeConsole /><div className="strength-grid">{strengths.map(([no, title, text]) => <article key={no}><span>{no}</span><ArrowDownRight size={20}/><h3>{title}</h3><p>{text}</p></article>)}</div></section>
 
