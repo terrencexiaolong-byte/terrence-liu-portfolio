@@ -22,8 +22,8 @@ const projects = [
   },
   {
     no: '02', title: '风险敞口分析工具', en: 'RISK SYSTEM',
-    text: '为客户投资组合搭建自动计算、汇总与输出的风险指标工作流，让数据更接近决策。',
-    tags: ['Python', 'Risk', 'Automation'], type: 'risk'
+    text: '采用大小因子打分法，按因子暴露对组合进行标准化打分、加权汇总与分层输出，形成可复核的风险指标工作流。',
+    tags: ['Python', 'Factor Scoring', 'Automation'], type: 'risk'
   },
   {
     no: '03', title: '商业可行性分析', en: 'MODEL BUILDING',

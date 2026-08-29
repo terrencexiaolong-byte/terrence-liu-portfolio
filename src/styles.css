@@ -341,6 +341,7 @@ button.result-frame{appearance:none;border:0;padding:0;text-align:initial;cursor
 .project-specs div{min-width:0;border-top:1px solid rgba(20,20,20,.16);padding-top:6px}
 .project-specs dt{font:600 8px/1.35 "DM Mono";letter-spacing:.8px;color:#e54035;text-transform:uppercase}
 .project-specs dd{margin:3px 0 0;font-size:10px;line-height:1.45;color:#4b4b49}
+.project-card.signal{height:720px}
 
 /* Desktop reading scale — keep display headlines intact, enlarge every supporting layer. */
 @media(min-width:701px){
