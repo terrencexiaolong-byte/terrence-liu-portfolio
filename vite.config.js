@@ -14,7 +14,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
-        interests: resolve(import.meta.dirname, 'interests.html')
+        interests: resolve(import.meta.dirname, 'interests.html'),
+        photobook: resolve(import.meta.dirname, 'photobook.html')
       }
     }
   }
