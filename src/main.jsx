@@ -320,7 +320,13 @@ function InterestsPage() {
   return <main className="interests-page">
     <nav className="interests-nav"><a href={sitePath('index.html')}>← 返回主页</a><p>捡树枝的鸦 / VISUAL NOTES</p><span>2026</span></nav>
     <header className="interests-hero"><div className="interests-title"><p className="eyebrow">PERSONAL ARCHIVE / 01</p><h1>影像<br/><em>与兴趣</em></h1><p>行走、观察、训练。<br/>这些是工作之外，持续塑造我的另一套坐标系。</p></div><figure className="self-portrait"><span className="portrait-kicker">FIELD NOTES / 2026</span><img src={sitePath('photos/self-portrait-mirror.jpg')} alt="刘小龙镜面自拍" loading="eager" fetchPriority="high" decoding="async"/><figcaption>OBSERVE<br/>THEN<br/>FRAME<span>35MM / 1·160</span></figcaption></figure></header>
-    <section className="gallery-wrap" id="photography"><div className="gallery-intro"><p className="eyebrow">PHOTOGRAPHY</p><div className="gallery-actions"><p>旅行与日常的光线记录</p><a className="photobook-entry" href={sitePath('photobook.html')}>阅读完整影集 <span>↗</span></a></div></div><div className="photo-grid">{photographs.map(([file, metadata], i) => <figure className={`photo-tile tile-${i % 7}`} key={file} role="button" tabIndex="0" aria-label={`放大预览摄影作品 ${i + 1}`} onClick={() => setActivePhoto({ file, metadata, index: i + 1 })} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setActivePhoto({ file, metadata, index: i + 1 }) } }}><img src={sitePath(`photos/${file}`)} alt={`摄影作品 ${i + 1}`} loading="lazy" fetchPriority="low" decoding="async"/><figcaption><span>{String(i + 1).padStart(2, '0')}</span>{metadata}</figcaption></figure>)}</div></section>
+    <section className="gallery-wrap" id="photography">
+      <div className="gallery-intro"><div className="gallery-copy"><p className="eyebrow">PHOTOGRAPHY / SELECTED WORKS</p><h2>旅行与日常的光线记录</h2><p>以下照片墙收录的是我的其他摄影作品；它们与独立完成的纸本摄影书《Islands》分别呈现。</p></div></div>
+      <article className="photobook-showcase"><div className="photobook-cover"><img src={sitePath('photobook/page-01.jpg')} alt="《Islands》摄影书封面" loading="eager" decoding="async"/><span>ISLANDS</span></div><div className="photobook-showcase-copy"><p className="eyebrow">INDEPENDENT PHOTOBOOK / 2024</p><h2>一册从版面<br/>到纸张的影像叙事。</h2><p>我使用 InDesign 完成《Islands》的设计与编排，并将它印刷成册。线上版本以双页阅读的方式，延续纸本翻阅的节奏。</p><a className="photobook-entry" href={sitePath('photobook.html')}><span><small>OPEN ISLANDS · 45 PAGES</small>进入完整摄影集</span><b>↗</b></a></div></article>
+      <div className="gallery-grid-label"><p>OTHER PHOTOGRAPHIC WORKS</p><h2>独立摄影作品</h2></div>
+      <div className="photo-grid">{photographs.map(([file, metadata], i) => <figure className={`photo-tile tile-${i % 7}`} key={file} role="button" tabIndex="0" aria-label={`放大预览摄影作品 ${i + 1}`} onClick={() => setActivePhoto({ file, metadata, index: i + 1 })} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setActivePhoto({ file, metadata, index: i + 1 }) } }}><img src={sitePath(`photos/${file}`)} alt={`摄影作品 ${i + 1}`} loading="lazy" fetchPriority="low" decoding="async"/><figcaption><span>{String(i + 1).padStart(2, '0')}</span>{metadata}</figcaption></figure>)}</div>
+      <div className="photobook-outro"><div className="photobook-mark"><div><strong>捡树枝的鸦</strong><small>凝万象于帧　栖一心在影</small></div><img src={sitePath('brand/logo-mark.png')} alt="捡树枝的鸦标志" /></div><p>INDEPENDENT PHOTOBOOK</p><h2>想翻阅我亲自<br/>设计的摄影书？</h2><a className="photobook-entry photobook-entry--outro" href={sitePath('photobook.html')}><span><small>ISLANDS · 45 PAGES · DOUBLE-PAGE READER</small>开始阅读摄影集</span><b>↗</b></a></div>
+    </section>
     <FitnessHero />
     <footer className="interests-footer"><a href={sitePath('index.html')}>← BACK TO QUANTITATIVE PORTFOLIO</a><p>© 2026 LIU XIAOLONG</p></footer>
     {activePhoto && <div className="photo-modal" role="dialog" aria-modal="true" aria-label={`摄影作品 ${activePhoto.index} 原图预览`} onClick={() => setActivePhoto(null)}><button className="photo-modal-close" type="button" onClick={() => setActivePhoto(null)} aria-label="关闭照片预览">×</button><div className="photo-modal-stage" onClick={(event) => event.stopPropagation()}><img src={sitePath(`photos/${activePhoto.file}`)} alt={`摄影作品 ${activePhoto.index} 原图`} decoding="async" /><p><span>{String(activePhoto.index).padStart(2, '0')}</span>{activePhoto.metadata}</p></div></div>}
@@ -328,67 +334,89 @@ function InterestsPage() {
 }
 
 function PhotoBookPage() {
-  const [pageIndex, setPageIndex] = useState(0)
+  const [spreadIndex, setSpreadIndex] = useState(0)
   const [motion, setMotion] = useState('next')
   const swipeStart = useRef(null)
   const totalPages = photoBookPages.length
+  const totalSpreads = Math.ceil(totalPages / 2)
+  const firstPageIndex = spreadIndex * 2
+  const secondPageIndex = firstPageIndex + 1
 
-  const goToPage = (nextIndex) => {
-    const boundedIndex = Math.max(0, Math.min(totalPages - 1, nextIndex))
-    if (boundedIndex === pageIndex) return
-    setMotion(boundedIndex > pageIndex ? 'next' : 'previous')
-    setPageIndex(boundedIndex)
+  const goToSpread = (nextIndex) => {
+    const boundedIndex = Math.max(0, Math.min(totalSpreads - 1, nextIndex))
+    if (boundedIndex === spreadIndex) return
+    setMotion(boundedIndex > spreadIndex ? 'next' : 'previous')
+    setSpreadIndex(boundedIndex)
   }
 
   useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key === 'ArrowRight' || event.key === ' ') {
         event.preventDefault()
-        goToPage(pageIndex + 1)
+        goToSpread(spreadIndex + 1)
       }
       if (event.key === 'ArrowLeft') {
         event.preventDefault()
-        goToPage(pageIndex - 1)
+        goToSpread(spreadIndex - 1)
       }
-      if (event.key === 'Home') goToPage(0)
-      if (event.key === 'End') goToPage(totalPages - 1)
+      if (event.key === 'Home') goToSpread(0)
+      if (event.key === 'End') goToSpread(totalSpreads - 1)
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [pageIndex])
+  }, [spreadIndex])
 
   useEffect(() => {
-    ;[pageIndex - 1, pageIndex + 1, pageIndex + 2]
+    ;[firstPageIndex - 2, secondPageIndex + 1, secondPageIndex + 2]
       .filter((index) => index >= 0 && index < totalPages)
       .forEach((index) => {
         const image = new Image()
         image.src = sitePath(photoBookPages[index])
       })
-  }, [pageIndex])
+  }, [firstPageIndex, secondPageIndex])
 
-  const pageNumber = String(pageIndex + 1).padStart(2, '0')
+  const firstPageNumber = String(firstPageIndex + 1).padStart(2, '0')
+  const secondPageNumber = secondPageIndex < totalPages ? String(secondPageIndex + 1).padStart(2, '0') : '—'
 
   return <main className="photobook-page">
     <header className="photobook-nav">
       <a href={sitePath('interests.html')}>← 返回影像档案</a>
-      <p>影集 1 / BLACKBIRD ISLANDS</p>
-      <span>{pageNumber} / {String(totalPages).padStart(2, '0')}</span>
+      <p>ISLANDS / BLACKBIRD ISLANDS</p>
+      <span>{firstPageNumber}—{secondPageNumber} / {String(totalPages).padStart(2, '0')}</span>
     </header>
-    <section className="photobook-stage" onPointerDown={(event) => { swipeStart.current = event.clientX }} onPointerUp={(event) => {
+    <section className="photobook-stage" onTouchStart={(event) => { swipeStart.current = event.touches[0]?.clientX ?? null }} onTouchEnd={(event) => {
       if (swipeStart.current === null) return
-      const distance = event.clientX - swipeStart.current
-      if (Math.abs(distance) > 42) goToPage(pageIndex + (distance < 0 ? 1 : -1))
+      const distance = (event.changedTouches[0]?.clientX ?? swipeStart.current) - swipeStart.current
+      if (Math.abs(distance) > 42) goToSpread(spreadIndex + (distance < 0 ? 1 : -1))
       swipeStart.current = null
     }}>
       <div className="photobook-page-frame" aria-live="polite">
-        <img key={pageIndex} className={`photobook-sheet is-${motion}`} src={sitePath(photoBookPages[pageIndex])} alt={`《影集 1》 第 ${pageIndex + 1} 页`} fetchPriority="high" decoding="async" />
+        <div key={spreadIndex} className={`photobook-spread is-${motion}`}>
+          <img className="photobook-sheet" src={sitePath(photoBookPages[firstPageIndex])} alt={`《Islands》 第 ${firstPageIndex + 1} 页`} fetchPriority="high" decoding="async" />
+          {secondPageIndex < totalPages ? <img className="photobook-sheet" src={sitePath(photoBookPages[secondPageIndex])} alt={`《Islands》 第 ${secondPageIndex + 1} 页`} fetchPriority="high" decoding="async" /> : <div className="photobook-endpaper">END<br/><span>ISLANDS</span></div>}
+        </div>
       </div>
-      <button className="photobook-turn photobook-turn--previous" type="button" onClick={() => goToPage(pageIndex - 1)} disabled={pageIndex === 0} aria-label="上一页">←</button>
-      <button className="photobook-turn photobook-turn--next" type="button" onClick={() => goToPage(pageIndex + 1)} disabled={pageIndex === totalPages - 1} aria-label="下一页">→</button>
+      <button className="photobook-turn photobook-turn--previous" type="button" onClick={() => goToSpread(spreadIndex - 1)} disabled={spreadIndex === 0} aria-label="上一跨页">←</button>
+      <button className="photobook-turn photobook-turn--next" type="button" onClick={() => goToSpread(spreadIndex + 1)} disabled={spreadIndex === totalSpreads - 1} aria-label="下一跨页">→</button>
     </section>
     <footer className="photobook-footer">
-      <p>使用 ← →、空格键或滑动翻页</p>
-      <label>页码 <input aria-label="跳转页码" type="range" min="1" max={totalPages} value={pageIndex + 1} onChange={(event) => goToPage(Number(event.target.value) - 1)} /></label>
+      <p>双页阅读 · 使用 ← →、空格键或滑动翻页</p>
+      <div className="photobook-progress" role="group" aria-label="影集阅读进度">
+        <div className="photobook-progress-heading"><span>READING PROGRESS</span><b>···</b></div>
+        <div className="photobook-progress-summary"><strong>{Math.round(((spreadIndex + 1) / totalSpreads) * 100)}%</strong><span>{String(spreadIndex + 1).padStart(2, '0')} / {String(totalSpreads).padStart(2, '0')}</span></div>
+        <div className="photobook-progress-track" aria-label={`第 ${spreadIndex + 1} 跨页，共 ${totalSpreads} 跨页`}>
+          {Array.from({ length: totalPages }, (_value, index) => (
+            <button
+              key={index}
+              className={`photobook-progress-cell ${index === firstPageIndex ? 'is-current' : ''} ${index < firstPageIndex ? 'is-read' : ''}`}
+              type="button"
+              onClick={() => goToSpread(Math.floor(index / 2))}
+              aria-label={`跳转至第 ${index + 1} 页`}
+              aria-current={index === firstPageIndex ? 'step' : undefined}
+            />
+          ))}
+        </div>
+      </div>
       <span>© 2024 TERRENCE LIU</span>
     </footer>
   </main>
