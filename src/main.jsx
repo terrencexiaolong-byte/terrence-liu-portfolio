@@ -50,6 +50,7 @@ const photographs = [
 ]
 
 const photoBookPages = Array.from({ length: 45 }, (_value, index) => `photobook/page-${String(index + 1).padStart(2, '0')}.jpg`)
+const photoBookSpreads = [[0], ...Array.from({ length: Math.floor((photoBookPages.length - 1) / 2) }, (_value, index) => [index * 2 + 1, index * 2 + 2])]
 
 function useEditorialEntrances() {
   useEffect(() => {
@@ -338,9 +339,8 @@ function PhotoBookPage() {
   const [motion, setMotion] = useState('next')
   const swipeStart = useRef(null)
   const totalPages = photoBookPages.length
-  const totalSpreads = Math.ceil(totalPages / 2)
-  const firstPageIndex = spreadIndex * 2
-  const secondPageIndex = firstPageIndex + 1
+  const totalSpreads = photoBookSpreads.length
+  const [firstPageIndex, secondPageIndex] = photoBookSpreads[spreadIndex]
 
   const goToSpread = (nextIndex) => {
     const boundedIndex = Math.max(0, Math.min(totalSpreads - 1, nextIndex))
@@ -367,7 +367,7 @@ function PhotoBookPage() {
   }, [spreadIndex])
 
   useEffect(() => {
-    ;[firstPageIndex - 2, secondPageIndex + 1, secondPageIndex + 2]
+    ;[firstPageIndex - 1, firstPageIndex + 1, secondPageIndex, secondPageIndex + 1]
       .filter((index) => index >= 0 && index < totalPages)
       .forEach((index) => {
         const image = new Image()
@@ -376,13 +376,13 @@ function PhotoBookPage() {
   }, [firstPageIndex, secondPageIndex])
 
   const firstPageNumber = String(firstPageIndex + 1).padStart(2, '0')
-  const secondPageNumber = secondPageIndex < totalPages ? String(secondPageIndex + 1).padStart(2, '0') : '—'
+  const secondPageNumber = Number.isInteger(secondPageIndex) ? String(secondPageIndex + 1).padStart(2, '0') : null
 
   return <main className="photobook-page">
     <header className="photobook-nav">
       <a href={sitePath('interests.html')}>← 返回影像档案</a>
       <p>ISLANDS / BLACKBIRD ISLANDS</p>
-      <span>{firstPageNumber}—{secondPageNumber} / {String(totalPages).padStart(2, '0')}</span>
+      <span>{secondPageNumber ? `${firstPageNumber}—${secondPageNumber}` : firstPageNumber} / {String(totalPages).padStart(2, '0')}</span>
     </header>
     <section className="photobook-stage" onTouchStart={(event) => { swipeStart.current = event.touches[0]?.clientX ?? null }} onTouchEnd={(event) => {
       if (swipeStart.current === null) return
@@ -391,9 +391,9 @@ function PhotoBookPage() {
       swipeStart.current = null
     }}>
       <div className="photobook-page-frame" aria-live="polite">
-        <div key={spreadIndex} className={`photobook-spread is-${motion}`}>
+        <div key={spreadIndex} className={`photobook-spread is-${motion} ${secondPageNumber ? '' : 'is-cover'}`}>
           <img className="photobook-sheet" src={sitePath(photoBookPages[firstPageIndex])} alt={`《Islands》 第 ${firstPageIndex + 1} 页`} fetchPriority="high" decoding="async" />
-          {secondPageIndex < totalPages ? <img className="photobook-sheet" src={sitePath(photoBookPages[secondPageIndex])} alt={`《Islands》 第 ${secondPageIndex + 1} 页`} fetchPriority="high" decoding="async" /> : <div className="photobook-endpaper">END<br/><span>ISLANDS</span></div>}
+          {Number.isInteger(secondPageIndex) && <img className="photobook-sheet" src={sitePath(photoBookPages[secondPageIndex])} alt={`《Islands》 第 ${secondPageIndex + 1} 页`} fetchPriority="high" decoding="async" />}
         </div>
       </div>
       <button className="photobook-turn photobook-turn--previous" type="button" onClick={() => goToSpread(spreadIndex - 1)} disabled={spreadIndex === 0} aria-label="上一跨页">←</button>
@@ -410,7 +410,7 @@ function PhotoBookPage() {
               key={index}
               className={`photobook-progress-cell ${index === firstPageIndex ? 'is-current' : ''} ${index < firstPageIndex ? 'is-read' : ''}`}
               type="button"
-              onClick={() => goToSpread(Math.floor(index / 2))}
+              onClick={() => goToSpread(index === 0 ? 0 : Math.ceil(index / 2))}
               aria-label={`跳转至第 ${index + 1} 页`}
               aria-current={index === firstPageIndex ? 'step' : undefined}
             />
