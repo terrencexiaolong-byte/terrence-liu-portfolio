@@ -417,3 +417,12 @@ button.result-frame{appearance:none;border:0;padding:0;text-align:initial;cursor
 /* Strong divider between the book and the separate photo wall. */
 .gallery-grid-label{display:flex;align-items:baseline;gap:16px;margin:0 0 28px;padding-top:31px}.gallery-grid-label p{margin:0;color:#e54035;font:600 10px/1 "DM Mono",monospace;letter-spacing:1.2px}.gallery-grid-label h2{margin:0;color:#f2f0e9;font:600 clamp(22px,2.25vw,33px)/1 "Noto Sans SC",Manrope,sans-serif;letter-spacing:-.06em}.photobook-mark img{display:block;width:68px;height:68px;object-fit:contain;filter:invert(1);mix-blend-mode:screen}.photobook-mark svg{display:none}
 @media(max-width:700px){.gallery-grid-label{display:block;margin-bottom:22px;padding-top:25px}.gallery-grid-label p{margin-bottom:9px;font-size:8px}.gallery-grid-label h2{font-size:25px}.photobook-mark img{width:46px;height:46px}}
+
+/* Give the reader dashboard more presence without competing with the spread. */
+.photobook-page footer.photobook-footer{min-height:82px}.photobook-progress{width:410px!important;padding:12px 14px!important;gap:7px 18px!important}.photobook-progress-heading{padding-bottom:7px;font-size:8px}.photobook-progress-summary strong{font-size:27px}.photobook-progress-summary span{font-size:9px}.photobook-progress-track{height:22px;padding:3px}
+@media(max-width:700px){.photobook-page footer.photobook-footer{min-height:74px}.photobook-progress{width:min(90vw,390px)!important;padding:10px 12px!important}.photobook-progress-summary strong{font-size:22px}.photobook-progress-track{height:18px}}
+
+/* Primary navigation needs to read like a control, not a caption. */
+.nav-links a{font-size:17px;line-height:1.15;letter-spacing:.01em}.nav-links a span{font-size:11px}.nav{min-height:72px}
+@media(max-width:700px){.nav{height:74px;min-height:74px;padding:0 20px}.nav-links a{font-size:18px;font-weight:700;letter-spacing:-.03em}.nav-links{align-items:center}}
+@media(max-width:380px){.nav{padding:0 15px}.nav-links a{font-size:16px}}
